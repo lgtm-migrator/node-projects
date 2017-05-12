@@ -3,9 +3,25 @@
  */
 
 const request = require('request');
+const yargs = require('yargs');
+
+const argv = yargs
+    .options({
+    a: {
+        alias: 'address',
+        demand: true,
+        describe: 'The address used to fetch weather',
+        string: true
+       }
+    })
+    .help()
+    .alias('help','h')
+    .argv;
+
+var encodedAddress = encodeURIComponent(argv.address);
 
 request({
-    url:'http://maps.googleapis.com/maps/api/geocode/json?address=%2210%20Bayfront%20Avenue,%20018956%22',
+    url:`http://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress} `,
     json: true
 }, (error, response, body) => {
     var results = body.results[0];
