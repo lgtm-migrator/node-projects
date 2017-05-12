@@ -2,8 +2,9 @@
  * Created by Bobby on 12/5/2017.
  */
 
-const request = require('request');
 const yargs = require('yargs');
+
+const geocode = require('./geocode/geocode');
 
 const argv = yargs
     .options({
@@ -18,22 +19,11 @@ const argv = yargs
     .alias('help','h')
     .argv;
 
-var encodedAddress = encodeURIComponent(argv.address);
-
-request({
-    url:`http://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress} `,
-    json: true
-}, (error, response, body) => {
-    if (error) {
-        console.log('Unable to connect to Google server');
+geocode.geocodeAddress(argv.address, (errorMessage, results) => {
+    if(errorMessage) {
+        console.log(errorMessage);
     }
-    else if (body.status === 'ZERO_RESULTS') {
-        console.log('Unable to find results');
-    }
-    else if (body.status === 'OK') {
-        var results = body.results[0];
-        console.log(`Address: ${results.formatted_address}`);
-        console.log(`Latitude: ${results.geometry.location.lat}`);
-        console.log(`Longitude: ${results.geometry.location.lng}`);
+    else {
+        console.log(JSON.stringify(results, undefined, 2));
     }
 });
