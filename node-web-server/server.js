@@ -7,12 +7,12 @@ const hbs = require('hbs');
 
 let app = express();
 
+hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 app.use(express.static(__dirname + '/public'));
 
 app.get('/', (request, response) => {
     response.render('home.hbs', {
-        headerTitle: 'Home',
         pageTitle: 'Home Page',
         welcomeMessage: 'Welcome to my Home Page',
         currentYear: new Date().getFullYear()
