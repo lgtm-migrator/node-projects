@@ -10,9 +10,23 @@ it('should add two numbers', () => {
     expect(res).toBe(57).toBeA('number');
 });
 
+it('should async add two numbers', (done) => {
+    utils.asyncAdd(8, 7, (sum)=> {
+        expect(sum).toBe(15).toBeA('number');
+        done();
+    })
+});
+
 it('should return the square of a number', () => {
    let res = utils.square(9);
    expect(res).toBe(81).toBeA('number');
+});
+
+it('should return async square of a number', (done) => {
+    utils.asyncSquare(9, (res) => {
+        expect(res).toBe(81).toBeA('number');
+        done();
+    });
 });
 
 it('should set firstName and lastName', () => {
